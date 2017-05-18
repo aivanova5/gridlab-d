@@ -167,7 +167,8 @@ int dishwasher::create()
 		The dishwasher explicit model has some serious issues and should be considered for complete
 		removal.  It is highly suggested that this model NOT be used.
 	*/
-
+	state_duration.set_name("state_duration");
+	state_heatgain.set_name("state_heatgain");
 	return res;
 }
 
@@ -207,7 +208,7 @@ int dishwasher::init(OBJECT *parent)
 	// set up the default duration array if not set
 	if ( state_duration.get_rows()==0 )
 	{
-		state_duration.grow_to(n_states-1);
+		state_duration.grow_to(n_states);
 		double duration[] = {
 			0, // OFF
 			5, // CONTROLSTART
@@ -228,17 +229,17 @@ int dishwasher::init(OBJECT *parent)
 			5, // CONTROLEND
 		};
 		for ( size_t n=0 ; n<sizeof(duration)/sizeof(duration[0]) ; n++ )
-			state_duration.set_at(n,0,duration[n]*60);
+			state_duration.set_at(n,duration[n]*60);
 	}
 
 	// check that the duration has the correct number of entries
-	if ( state_duration.get_rows()!=n_states)
+	if ( state_duration.get_cols()!=n_states)
 		exception("state_duration array does not have the same number of rows as the controlmode enumeration has possible values");
 	else
 		state_machine.transition_holds = &state_duration;
 
 	// setup default state power array
-	if ( state_power.get_rows()==0 && state_power.get_cols()==0 )
+	if ( state_power.is_empty() )
 	{
 		state_power.grow_to(n_states-1,2);
 #define Z 0

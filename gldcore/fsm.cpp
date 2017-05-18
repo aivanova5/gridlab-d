@@ -246,7 +246,7 @@ extern "C" int fsm_add_transition_rule(statemachine *machine, char *spec)
 		}
 		else
 		{
-			unsigned int64 index = 0;
+			uint64 index = 0;
 			char *pindex = strchr(lhs,'#');
 			if ( pindex!=NULL )
 			{
@@ -281,7 +281,7 @@ extern "C" int fsm_add_transition_rule(statemachine *machine, char *spec)
 		}
 		else 
 		{
-			unsigned int64 index = 0;
+			uint64 index = 0;
 			char *pindex = strchr(rhs,'#');
 			if ( pindex!=NULL )
 			{
